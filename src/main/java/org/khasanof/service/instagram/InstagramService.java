@@ -2,18 +2,14 @@ package org.khasanof.service.instagram;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import lombok.SneakyThrows;
+import lombok.*;
 import okhttp3.*;
 import org.khasanof.entity.instagram.InstagramEntity;
 import org.khasanof.utils.baseUtils.ValidateUtils;
 
-import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.URI;
 
 public class InstagramService {
-
-    private static final InstagramService SERVICE = new InstagramService();
 
     @SneakyThrows
     public static InstagramEntity load(String url) {
@@ -40,10 +36,6 @@ public class InstagramService {
         Response response = client.newCall(request).execute();
         InstagramEntity instagram = gson.fromJson(response.body().string(), type);
         return instagram;
-    }
-
-    public static InstagramService getService() {
-        return SERVICE;
     }
 
 }

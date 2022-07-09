@@ -1,23 +1,24 @@
 package org.khasanof.handlers;
 
+import org.khasanof.VideoDownloader;
 import org.khasanof.handlers.callBack.CallbackHandler;
 import org.khasanof.handlers.message.MessageHandler;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class MainHandler {
-    public static final MainHandler HANDLER = new MainHandler();
-    private static final MessageHandler MESSAGE_HANDLER = MessageHandler.getMessageHandler();
-    private static final CallbackHandler CALL_BACK_HANDLER = CallbackHandler.getCallbackHandler();
+    private final MessageHandler MESSAGE_HANDLER;
+    private final CallbackHandler CALL_BACK_HANDLER;
 
-    public void handler(Update update) {
-        if (update.hasMessage()) {
-            MESSAGE_HANDLER.process(update);
-        } else if(update.hasCallbackQuery()) {
-            CALL_BACK_HANDLER.process(update);
-        }
+    public MainHandler() {
+        this.MESSAGE_HANDLER = new MessageHandler();
+        this.CALL_BACK_HANDLER = new CallbackHandler();
     }
 
-    public static MainHandler getHandler() {
-        return HANDLER;
+    public void handler(Update update, VideoDownloader bot) {
+        if (update.hasMessage()) {
+            MESSAGE_HANDLER.process(update, bot);
+        } else if (update.hasCallbackQuery()) {
+            CALL_BACK_HANDLER.process(update, bot);
+        }
     }
 }

@@ -10,8 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 
 public class VideoDownloader extends TelegramLongPollingBot {
-    private static final VideoDownloader DOWNLOADER = new VideoDownloader();
-    private static final MainHandler MAIN_HANDLER = MainHandler.getHandler();
+    private final MainHandler mainHandler;
+
+    public VideoDownloader(MainHandler mainHandler) {
+        this.mainHandler = mainHandler;
+    }
+
 
     @Override
     public String getBotUsername() {
@@ -25,7 +29,7 @@ public class VideoDownloader extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        MAIN_HANDLER.handler(update);
+        mainHandler.handler(update, this);
     }
 
     public void executeMessage(BotApiMethod<?> message) {
@@ -52,7 +56,4 @@ public class VideoDownloader extends TelegramLongPollingBot {
         }
     }
 
-    public static VideoDownloader getDownloader() {
-        return DOWNLOADER;
-    }
 }

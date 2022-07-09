@@ -3,6 +3,7 @@ package org.khasanof.handlers.callBack;
 import org.khasanof.VideoDownloader;
 import org.khasanof.enums.language.Language;
 import org.khasanof.handlers.IBaseHandler;
+import org.khasanof.handlers.MainHandler;
 import org.khasanof.keyboards.reply.ReplyKeyboard;
 import org.khasanof.utils.baseUtils.BaseUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,11 +11,8 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class CallbackHandler implements IBaseHandler {
-    public static final CallbackHandler CALLBACK_HANDLER = new CallbackHandler();
-    private static final VideoDownloader bot = VideoDownloader.getDownloader();
-
     @Override
-    public void process(Update update) {
+    public void process(Update update, VideoDownloader bot) {
         Long chatID = update.getCallbackQuery().getMessage().getChatId();
         if (update.hasCallbackQuery()) {
             switch (update.getCallbackQuery().getData()) {
@@ -25,15 +23,11 @@ public class CallbackHandler implements IBaseHandler {
                     message1.setReplyMarkup(ReplyKeyboard.enterMenu());
                     message1.setParseMode("html");
                     message.setParseMode("html");
+                    bot.executeMessage(deleteMessage);
                     bot.executeMessage(message);
                     bot.executeMessage(message1);
-                    bot.executeMessage(deleteMessage);
                 }
             }
         }
-    }
-
-    public static CallbackHandler getCallbackHandler() {
-        return CALLBACK_HANDLER;
     }
 }
