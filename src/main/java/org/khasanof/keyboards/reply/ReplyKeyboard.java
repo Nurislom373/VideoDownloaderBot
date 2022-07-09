@@ -15,8 +15,10 @@ public class ReplyKeyboard {
         KeyboardRow row2 = new KeyboardRow();
         KeyboardRow row3 = new KeyboardRow();
         KeyboardButton Instagram = new KeyboardButton("Instagram");
+        KeyboardButton YouTube = new KeyboardButton("YouTube");
         KeyboardButton Facebook = new KeyboardButton("Facebook");
         KeyboardButton TikTok = new KeyboardButton("TikTok");
+        row1.add(YouTube);
         row1.add(Instagram);
         row2.add(Facebook);
         row2.add(TikTok);

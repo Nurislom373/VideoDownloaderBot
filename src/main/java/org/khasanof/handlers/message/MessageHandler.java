@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.khasanof.VideoDownloader;
 import org.khasanof.entity.instagram.InstagramEntity;
+import org.khasanof.entity.tiktok.TikTokEntity;
 import org.khasanof.handlers.IBaseHandler;
 import org.khasanof.keyboards.reply.ReplyKeyboard;
 import org.khasanof.service.instagram.InstagramService;
+import org.khasanof.service.tiktok.TikTokService;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
@@ -31,17 +33,22 @@ public class MessageHandler implements IBaseHandler {
                 sendMessage.setParseMode("html");
                 sendMessage.setReplyMarkup(ReplyKeyboard.enterMenu());
                 bot.executeMessage(sendMessage);
-            }
-            else if (update.getMessage().getText().equals("Instagram")) {
+            } else if (update.getMessage().getText().equals("Instagram")) {
                 String text = "enter link";
                 SendMessage sendMessage = new SendMessage(chatID.toString(), "<b>" + text + "</b>");
                 sendMessage.setParseMode("html");
                 sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
                 bot.executeMessage(sendMessage);
-            }
-            else if (update.getMessage().getText().contains("www.instagram.com")) {
+            } else if (update.getMessage().getText().equals("TikTok")) {
+                String text = "enter link";
+                SendMessage sendMessage = new SendMessage(chatID.toString(), "<b>" + text + "</b>");
+                sendMessage.setParseMode("html");
+                sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
+                bot.executeMessage(sendMessage);
+            } else if (update.getMessage().getText().contains("www.instagram.com")) {
                 try {
-                    SendMessage sendMessage = new SendMessage(chatID.toString(), "processing...");
+                    SendMessage sendMessage = new SendMessage(chatID.toString(), "<b>processing...</b>");
+                    sendMessage.setParseMode("html");
                     bot.executeMessage(sendMessage);
                     InstagramEntity instagramEntity = InstagramService.load(update.getMessage().getText());
                     String title = instagramEntity.getResponse().getTitle();
@@ -57,6 +64,19 @@ public class MessageHandler implements IBaseHandler {
                         photo.setReplyMarkup(ReplyKeyboard.enterMenu());
                         bot.executePhoto(photo);
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (update.getMessage().getText().contains("tiktok.com")) {
+                try {
+                    SendMessage sendMessage = new SendMessage(chatID.toString(), "<b>processing...</b>");
+                    sendMessage.setParseMode("html");
+                    bot.executeMessage(sendMessage);
+                    TikTokEntity tikTokEntity = TikTokService.load(update.getMessage().getText());
+                    String url = tikTokEntity.getVideo().get(0);
+                    SendVideo video = new SendVideo(chatID.toString(), new InputFile(URI.create(url).toURL().openStream(), String.valueOf(System.currentTimeMillis())));
+                    video.setReplyMarkup(ReplyKeyboard.enterMenu());
+                    bot.executeVideo(video);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
