@@ -4,6 +4,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ReplyKeyboard {
@@ -22,7 +24,10 @@ public class ReplyKeyboard {
         row1.add(Instagram);
         row2.add(Facebook);
         row2.add(TikTok);
-        REPLY_KEYBOARD_MARKUP.setKeyboard(List.of(row1, row2));
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+        keyboardRows.add(row1);
+        keyboardRows.add(row2);
+        REPLY_KEYBOARD_MARKUP.setKeyboard(keyboardRows);
         return REPLY_KEYBOARD_MARKUP;
     }
 }
