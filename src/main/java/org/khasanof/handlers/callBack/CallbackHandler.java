@@ -15,18 +15,18 @@ public class CallbackHandler implements IBaseHandler {
     public void process(Update update, VideoDownloader bot) {
         Long chatID = update.getCallbackQuery().getMessage().getChatId();
         if (update.hasCallbackQuery()) {
-            switch (update.getCallbackQuery().getData()) {
-                case "UZ", "EN", "RU" -> {
-                    DeleteMessage deleteMessage = new DeleteMessage(chatID.toString(), update.getCallbackQuery().getMessage().getMessageId());
-                    SendMessage message = new SendMessage(chatID.toString(), "<b>" + BaseUtils.translate("EN", Language.WELCOME_TO) + "</b>");
-                    SendMessage message1 = new SendMessage(chatID.toString(), "<b>" + BaseUtils.translate("EN", Language.CHOOSE_MENU) + "</b>");
-                    message1.setReplyMarkup(ReplyKeyboard.enterMenu());
-                    message1.setParseMode("html");
-                    message.setParseMode("html");
-                    bot.executeMessage(deleteMessage);
-                    bot.executeMessage(message);
-                    bot.executeMessage(message1);
-                }
+            if ("UZ".equals(update.getCallbackQuery().getData())) {
+                DeleteMessage deleteMessage = new DeleteMessage(chatID.toString(), update.getCallbackQuery().getMessage().getMessageId());
+                SendMessage message = new SendMessage(chatID.toString(), "<b>" + BaseUtils.translate("EN", Language.WELCOME_TO) + "</b>");
+                SendMessage message1 = new SendMessage(chatID.toString(), "<b>" + BaseUtils.translate("EN", Language.CHOOSE_MENU) + "</b>");
+                message1.setReplyMarkup(ReplyKeyboard.enterMenu());
+                message1.setParseMode("html");
+                message.setParseMode("html");
+                bot.executeMessage(deleteMessage);
+                bot.executeMessage(message);
+                bot.executeMessage(message1);
+            } else {
+                System.out.println("....");
             }
         }
     }
