@@ -13,4 +13,11 @@ public class BaseUtils {
         }
         return "";
     }
+
+    public static String changeUrlAddUrlCharacters(String url) {
+        return url.replace(":", "%3A")
+                .replace("/", "%2F")
+                .replace("?", "%3F")
+                .replace("=", "%3D");
+    }
 }

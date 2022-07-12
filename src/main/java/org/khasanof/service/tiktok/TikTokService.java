@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.khasanof.entity.tiktok.TikTokEntity;
+import org.khasanof.utils.baseUtils.BaseUtils;
 
 import java.lang.reflect.Type;
 
@@ -20,7 +21,7 @@ public class TikTokService {
 
         OkHttpClient client = new OkHttpClient();
 
-        String urlCharacters = changeUrlAddUrlCharacters(url);
+        String urlCharacters = BaseUtils.changeUrlAddUrlCharacters(url);
 
         Request request = new Request.Builder()
                 .url("https://tiktok-downloader-download-tiktok-videos-without-watermark.p.rapidapi.com/index?url=" + urlCharacters)
@@ -32,12 +33,5 @@ public class TikTokService {
         Response response = client.newCall(request).execute();
         TikTokEntity tikTok = gson.fromJson(response.body().string(), type);
         return tikTok;
-    }
-
-    private static String changeUrlAddUrlCharacters(String url) {
-        return url.replace(":", "%3A")
-                .replace("/", "%2F")
-                .replace("?", "%3F")
-                .replace("=", "%3D");
     }
 }

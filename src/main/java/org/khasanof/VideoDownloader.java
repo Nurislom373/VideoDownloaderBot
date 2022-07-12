@@ -16,7 +16,6 @@ public class VideoDownloader extends TelegramLongPollingBot {
         this.mainHandler = mainHandler;
     }
 
-
     @Override
     public String getBotUsername() {
         return PConfig.get("bot.username");
